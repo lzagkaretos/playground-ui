@@ -9,7 +9,8 @@ class Crossword extends React.Component {
       <Table.Row key={i}>
         {line.map((letter, j) => {
             let cellClass = letter === '#' ? 'black-cell' : '';
-            return (<Table.Cell className={cellClass} textAlign='center' key={'' + i + j}>{letter}</Table.Cell>);
+            return (<Table.Cell className={'crossword-cell ' + cellClass} textAlign='center'
+                                key={'' + i + j}>{letter === '-' || letter === '#' ? '' : letter}</Table.Cell>);
           }
         )}
       </Table.Row>
@@ -22,13 +23,7 @@ class Crossword extends React.Component {
     }
     return (
       <div>
-        <Table celled>
-          <Table.Body>
-            {this.props.crossword.emptyBoard.map((object, i) => this.renderBoardLine(object, i))}
-          </Table.Body>
-        </Table>
-
-        <Table celled>
+        <Table celled className={'crossword-table'}>
           <Table.Body>
             {this.props.crossword.board.map((object, i) => this.renderBoardLine(object, i))}
           </Table.Body>
@@ -38,7 +33,7 @@ class Crossword extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return { crossword: state.crossword };
 };
 

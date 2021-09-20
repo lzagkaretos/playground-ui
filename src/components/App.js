@@ -1,22 +1,29 @@
 import React from 'react';
-import Crossword from './Crossword';
+import { Route, Router, Switch } from 'react-router-dom';
 import { Container, Grid, Header } from 'semantic-ui-react';
-import CrosswordAction from './CrosswordAction';
+import history from '../history';
+import PlaygroundHeader from './PlaygroundHeader';
+import Home from './Home';
+import CrosswordContainer from './CrosswordContainer';
 
 class App extends React.Component {
 
   render() {
     return (
       <Container style={{ marginTop: '3em' }}>
-        <Header dividing>My Playground</Header>
-        <Header>
-          <Grid>
-            <Grid.Column>
-              <CrosswordAction />
-            </Grid.Column>
-          </Grid>
-        </Header>
-        <Crossword />
+        <Router history={history}>
+          <PlaygroundHeader />
+          <Header>
+            <Grid>
+              <Grid.Column>
+                <Switch>
+                  <Route path='/' exact component={Home} />
+                  <Route path='/crossword' exact component={CrosswordContainer} />
+                </Switch>
+              </Grid.Column>
+            </Grid>
+          </Header>
+        </Router>
       </Container>
     );
   }

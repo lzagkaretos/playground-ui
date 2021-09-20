@@ -1,3 +1,14 @@
+.crossword-table {
+    width: auto !important;
+}
+
+.crossword-cell {
+    font-weight: normal;
+    font-size: small;
+    width: 40px;
+    height: 45px;
+}
+
 .black-cell {
     background-color: black;
 }
