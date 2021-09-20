@@ -1,7 +1,14 @@
 import playground from '../apis/playground';
-import {GENERATE_CROSSWORD} from "./types";
+import { FETCH_BOARDS, GENERATE_CROSSWORD } from './types';
 
-export const generateCrossword = () => async (dispatch) => {
-    const response = await playground.get('crossword/generate');
-    dispatch({type: GENERATE_CROSSWORD, payload: response.data})
-}
+export const fetchBoards = () => async (dispatch) => {
+  const response = await playground.get('crossword/boards');
+  dispatch({ type: FETCH_BOARDS, payload: response.data });
+};
+
+export const generateCrossword = (selectedBoard) => async (dispatch) => {
+  const response = await playground.post('crossword/generate', {
+    boardId: selectedBoard
+  });
+  dispatch({ type: GENERATE_CROSSWORD, payload: response.data });
+};
