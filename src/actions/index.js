@@ -22,9 +22,6 @@ export const generateCrossword = (selectedBoard) => async (dispatch) => {
 };
 
 export const checkSolution = (filledBoard) => (dispatch, getState) => {
-
-  console.log(getState().crossword.board);
   const solutionResult = _.isEqual(filledBoard, getState().crossword.board);
-  console.log(solutionResult);
   dispatch({ type: CHECK_SOLUTION, payload: solutionResult });
 };
