@@ -1,5 +1,6 @@
+import _ from 'lodash';
 import playground from '../apis/playground';
-import { FETCH_BOARDS, GENERATE_CROSSWORD } from './types';
+import { CHECK_SOLUTION, FETCH_BOARDS, GENERATE_CROSSWORD } from './types';
 
 export const fetchBoards = () => async (dispatch) => {
   const response = await playground.get('crossword/boards');
@@ -15,8 +16,15 @@ export const generateCrossword = (selectedBoard) => async (dispatch) => {
     type: GENERATE_CROSSWORD, payload: {
       identifier, wordSlots, generationTime, totalCombinations,
       emptyBoard: emptyBoard.map(l => [...l]),
-      board: board.map(l => [...l]),
-      solution: null
+      board: board.map(l => [...l])
     }
   });
+};
+
+export const checkSolution = (filledBoard) => (dispatch, getState) => {
+
+  console.log(getState().crossword.board);
+  const solutionResult = _.isEqual(filledBoard, getState().crossword.board);
+  console.log(solutionResult);
+  dispatch({ type: CHECK_SOLUTION, payload: solutionResult });
 };

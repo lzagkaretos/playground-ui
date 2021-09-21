@@ -3,18 +3,6 @@ import { Input, Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 class Crossword extends React.Component {
-  state = { filledBoard: null };
-
-  constructor(props, context) {
-    super(props, context);
-    this.inputCellChanged = this.inputCellChanged.bind(this);
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    return {
-      filledBoard: props.crossword.emptyBoard
-    };
-  }
 
   renderBoardLine(line, i) {
     return (
@@ -27,7 +15,7 @@ class Crossword extends React.Component {
             return (
               <Table.Cell className={'crossword-cell'} key={'' + i + j}>
                 <Input transparent className={'crossword-input-cell'} maxLength={1}
-                       id={`i${i}j${j}`} key={`i${i}j${j}`} onChange={this.inputCellChanged} />
+                       id={`i${i}j${j}`} key={`i${i}j${j}`} onChange={this.cellChanged} />
               </Table.Cell>
             );
           }
@@ -36,12 +24,8 @@ class Crossword extends React.Component {
     );
   }
 
-  inputCellChanged(e, data) {
-    const x = data.id.substr(1, data.id.indexOf('j') - 1);
-    const y = data.id.substr(data.id.indexOf('j') + 1);
-    let updatedBoard = [...this.state.filledBoard];
-    updatedBoard[x][y] = data.value === '' ? '-' : data.value.toUpperCase();
-    this.setState({ filledBoard: updatedBoard });
+  cellChanged = (e, data) => {
+    this.props.cellChanged(data);
   }
 
   render() {
