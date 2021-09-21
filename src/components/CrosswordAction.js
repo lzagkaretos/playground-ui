@@ -21,20 +21,24 @@ class CrosswordAction extends React.Component {
     this.props.generateCrossword(this.state.selectedBoard);
   };
 
+  checkSolution = () => {
+    this.props.checkSolution();
+  };
+
   getBoardOptions() {
     return this.props.boards.map(board => ({ key: board.id, value: board.id, text: board.name }));
-  }
+  };
 
   handleBoardChange = (e, { value }) => this.setState({ selectedBoard: value });
 
   render() {
-    const { value } = this.state;
     return (
       <Segment>
         <Dropdown placeholder='Select Board Type' selection options={this.getBoardOptions()}
                   onChange={this.handleBoardChange} value={this.state.selectedBoard} />
         <Divider />
         <Button primary onClick={this.generateCrossword}>Generate Crossword</Button>
+        <Button color={'green'} onClick={this.checkSolution}>Check Solution</Button>
       </Segment>
     );
   }

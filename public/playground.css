@@ -7,8 +7,19 @@
     font-size: small;
     width: 40px;
     height: 45px;
+    padding: 0 !important;
 }
 
 .black-cell {
     background-color: black;
+}
+
+.crossword-input-cell {
+    width: 40px;
+    height: 45px;
+}
+
+.crossword-input-cell > input {
+    text-align: center !important;
+    text-transform: uppercase;
 }

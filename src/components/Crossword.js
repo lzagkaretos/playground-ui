@@ -1,20 +1,47 @@
 import React from 'react';
+import { Input, Table } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { Table } from 'semantic-ui-react';
 
 class Crossword extends React.Component {
+  state = { filledBoard: null };
+
+  constructor(props, context) {
+    super(props, context);
+    this.inputCellChanged = this.inputCellChanged.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      filledBoard: props.crossword.emptyBoard
+    };
+  }
 
   renderBoardLine(line, i) {
     return (
       <Table.Row key={i}>
         {line.map((letter, j) => {
-            let cellClass = letter === '#' ? 'black-cell' : '';
-            return (<Table.Cell className={'crossword-cell ' + cellClass} textAlign='center'
-                                key={'' + i + j}>{letter === '-' || letter === '#' ? '' : letter}</Table.Cell>);
+          if (letter === '#') {
+            return <Table.Cell className={'crossword-cell black-cell'}
+                               key={'' + i + j}></Table.Cell>;
+          } else {
+            return (
+              <Table.Cell className={'crossword-cell'} key={'' + i + j}>
+                <Input transparent className={'crossword-input-cell'} maxLength={1}
+                       id={`i${i}j${j}`} key={`i${i}j${j}`} onChange={this.inputCellChanged} />
+              </Table.Cell>
+            );
           }
-        )}
-      </Table.Row>
+        })}
+      < /Table.Row>
     );
+  }
+
+  inputCellChanged(e, data) {
+    const x = data.id.substr(1, data.id.indexOf('j') - 1);
+    const y = data.id.substr(data.id.indexOf('j') + 1);
+    let updatedBoard = [...this.state.filledBoard];
+    updatedBoard[x][y] = data.value === '' ? '-' : data.value.toUpperCase();
+    this.setState({ filledBoard: updatedBoard });
   }
 
   render() {
@@ -22,13 +49,11 @@ class Crossword extends React.Component {
       return <div></div>;
     }
     return (
-      <div>
-        <Table celled className={'crossword-table'}>
-          <Table.Body>
-            {this.props.crossword.board.map((object, i) => this.renderBoardLine(object, i))}
-          </Table.Body>
-        </Table>
-      </div>
+      <Table key={this.props.crossword.identifier} celled className={'crossword-table'}>
+        <Table.Body>
+          {this.props.crossword.emptyBoard.map((object, i) => this.renderBoardLine(object, i))}
+        </Table.Body>
+      </Table>
     );
   }
 }

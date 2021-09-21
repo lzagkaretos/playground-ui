@@ -10,5 +10,13 @@ export const generateCrossword = (selectedBoard) => async (dispatch) => {
   const response = await playground.post('crossword/generate', {
     boardId: selectedBoard
   });
-  dispatch({ type: GENERATE_CROSSWORD, payload: response.data });
+  const { identifier, board, totalCombinations, generationTime, wordSlots, emptyBoard } = response.data;
+  dispatch({
+    type: GENERATE_CROSSWORD, payload: {
+      identifier, wordSlots, generationTime, totalCombinations,
+      emptyBoard: emptyBoard.map(l => [...l]),
+      board: board.map(l => [...l]),
+      solution: null
+    }
+  });
 };

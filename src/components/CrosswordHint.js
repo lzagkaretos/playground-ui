@@ -9,8 +9,8 @@ class CrosswordHint extends React.Component {
     const workingList = (direction === 'HORIZONTAL') ?
       _.orderBy(this.props.wordSlots, ['startX', 'startY'], ['asc', 'asc']) :
       _.orderBy(this.props.wordSlots, ['startY', 'startX'], ['asc', 'asc']);
-    return workingList.filter(ws => ws.direction === direction).map(ws => {
-      return <List.Item>({ws.startX + 1}, {ws.startY + 1}): {ws.word}</List.Item>;
+    return workingList.filter(ws => ws.direction === direction).map((ws, i) => {
+      return <List.Item key={i}>({ws.startX + 1}, {ws.startY + 1}): {ws.word}</List.Item>;
     });
   };
 
